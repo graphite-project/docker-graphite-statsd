@@ -34,6 +34,7 @@ RUN if [ ! -z "${CONTAINER_TIMEZONE}" ]; \
 
 # fix python dependencies (LTS Django)
 RUN python -m pip install --upgrade pip && \
+  pip install fadvise==6.0.1 && \                                                                                              
   pip install django==1.11.15
 
 ARG version=1.1.4
