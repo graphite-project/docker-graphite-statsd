@@ -32,8 +32,9 @@ RUN if [ ! -z "${CONTAINER_TIMEZONE}" ]; \
     dpkg-reconfigure -f noninteractive tzdata; \
     fi
 
-# fix python dependencies (LTS Django)
+# fix python dependencies (LTS Django and fadvise)
 RUN python -m pip install --upgrade pip && \
+  pip install fadvise==6.0.1 && \                                                                                              
   pip install django==1.11.15
 
 # install useful 3rd paty modules
