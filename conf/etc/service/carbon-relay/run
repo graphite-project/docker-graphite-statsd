@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[[ -n ${RELAY} ]] || exit 1
+rm -f /opt/graphite/storage/carbon-relay-a.pid
+source /opt/graphite/bin/activate
+exec python3 /opt/graphite/bin/carbon-relay.py start --debug 2>&1 >> /var/log/carbon-relay.log
