@@ -38,7 +38,7 @@ PATH="${PATH}:/usr/local/bin"
 ## check services to disable
 for _srv in $(ls -1 /etc/service); do
     eval X=$`echo -n $_srv | tr [:lower:]- [:upper:]_`_DISABLED
-    [ -n "$X" ] && touch /etc/service/$_srv/down
+    [ -n "$X" ] && rm -rf /etc/service/$_srv
 done
 
 # remove stale pids
