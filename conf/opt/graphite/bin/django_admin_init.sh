@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cat <<EOF | python3 /opt/graphite/bin/django-admin.py shell
+cat <<EOF | pypy3 /opt/graphite/bin/django-admin.py shell
 from django.contrib.auth import get_user_model
 
 User = get_user_model()  # get the currently active user model

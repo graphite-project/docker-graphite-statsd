@@ -2,4 +2,4 @@
 
 [[ -f "./down" ]] && exit 1
 
-exec python3 /opt/graphite/bin/carbon-aggregator.py start --debug 2>&1
+exec pypy3 /opt/graphite/bin/carbon-aggregator.py start --debug 2>&1
