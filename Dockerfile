@@ -21,9 +21,11 @@ RUN true \
       sqlite \
       expect \
       dcron \
-      mysql-client \
       python3-dev \
+      mysql-client \
+      mysql-dev \
       postgresql-client \
+      postgresql-dev \
       librdkafka \
       jansson \
  && rm -rf \
