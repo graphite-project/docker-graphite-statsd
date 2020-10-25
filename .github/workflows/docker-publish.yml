@@ -8,12 +8,18 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+      - uses: actions/checkout@v2
+      - uses: github/super-linter@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # QEMU is used to emulated the ARM architecture, allowing us
+      # to build not-x86 images
+      - uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
+      # Buildx provides an easier way of building Docker images for other architectures
+      - uses: docker/setup-buildx-action@master
       - name: Build image
-        uses: docker/setup-buildx-action@v1
         run: |
           docker buildx build --platform=linux/arm,linux/arm64,linux/amd64 --load -t graphiteapp/graphite-statsd:master .
       - name: Run Snyk to check Docker image for vulnerabilities
