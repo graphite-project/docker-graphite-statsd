@@ -105,7 +105,7 @@ RUN . /opt/graphite/bin/activate \
  && $python_binary ./setup.py install
 
 # install statsd
-ARG statsd_version=0.8.6
+ARG statsd_version=0.9.0
 ARG statsd_repo=https://github.com/statsd/statsd.git
 WORKDIR /opt
 RUN git clone "${statsd_repo}" \
@@ -125,7 +125,7 @@ RUN git clone "${gocarbon_repo}" /usr/local/src/go-carbon \
  && cp -fv go-carbon /opt/graphite/bin/go-carbon
 
 # install brubeck (experimental)
-ARG brubeck_version=7e0fbc33ce44e162470de7778b887a75a5ee70bd
+ARG brubeck_version=e95d95945a9319be38e593e95691344a99fe851d
 ARG brubeck_repo=https://github.com/lukepalmer/brubeck.git
 ENV BRUBECK_NO_HTTP=1
 RUN git clone "${brubeck_repo}" /usr/local/src/brubeck \
