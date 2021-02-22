@@ -19,6 +19,9 @@ jobs:
           platforms: all
       # Buildx provides an easier way of building Docker images for other architectures
       - uses: docker/setup-buildx-action@master
+      - name: Build s390 python3 image
+        run: |
+          docker buildx build --platform=linux/s390 --load -t graphiteapp/graphite-statsd:master .
       - name: Build amd64 python3 image
         run: |
           docker buildx build --platform=linux/amd64 --load -t graphiteapp/graphite-statsd:master .
