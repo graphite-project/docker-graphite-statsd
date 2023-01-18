@@ -160,12 +160,9 @@ Additional environment variables can be set to adjust performance.
 * GRAPHITE_REPLICATION_FACTOR: (1) # The replication factor to use with consistent hashing. This should usually match the value configured in Carbon.
 * GRAPHITE_CLUSTER_SERVERS: ('') This should list of remote servers in the cluster. These servers must each have local access to metric data. Note that the first server to return a match for a query will be used. See [docs](https://graphite.readthedocs.io/en/latest/config-local-settings.html#cluster-configuration) for details.
 * GRAPHITE_USE_WORKER_POOL: (true) Creates a pool of worker threads to which tasks can be dispatched. This makes sense if there are multiple CLUSTER_SERVERS and/or STORAGE_FINDERS because then the communication with them can be parallelized.
-* GRAPHITE_POOL_WORKERS_PER_BACKEND: (8) The number of worker threads that should be created per backend server
-* GRAPHITE_POOL_WORKERS: (1) A baseline number of workers that should always be created
 * GRAPHITE_REMOTE_FIND_TIMEOUT: (30) Timeout for metric find requests
 * GRAPHITE_REMOTE_FETCH_TIMEOUT: (60) Timeout to fetch series data
 * GRAPHITE_REMOTE_RETRY_DELAY: (0) Time before retrying a failed remote webapp.
-* GRAPHITE_REMOTE_PREFETCH_DATA: (false) # set to True to fetch all metrics using a single http request per remote server instead of one http request per target, per remote server. # Especially useful when generating graphs with more than 4-5 targets or if there's significant latency between this server and the backends.
 * GRAPHITE_MAX_FETCH_RETRIES: (2) Number of retries for a specific remote data fetch
 * GRAPHITE_FIND_CACHE_DURATION: (0) Time to cache remote metric find results
 * GRAPHITE_STATSD_HOST: ("127.0.0.1") If set, django_statsd.middleware.GraphiteRequestTimingMiddleware and django_statsd.middleware.GraphiteMiddleware will be enabled.
