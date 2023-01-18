@@ -284,17 +284,6 @@ CLUSTER_SERVERS = [x for x in [host.strip() for host in os.environ.get('GRAPHITE
 # memory consumption (and number of connections to memcached).
 USE_WORKER_POOL = os.environ.get("GRAPHITE_USE_WORKER_POOL", "true").lower() in ['1', 'true', 'yes']
 
-# The number of worker threads that should be created per backend server.
-# It makes sense to have more than one thread per backend server if
-# the graphite-web web server itself is multi threaded and can handle multiple
-# incoming requests at once.
-POOL_WORKERS_PER_BACKEND = int(os.environ.get('GRAPHITE_POOL_WORKERS_PER_BACKEND', '8'))
-
-# A baseline number of workers that should always be created, no matter how many
-# cluster servers are configured. These are used for other tasks that can be
-# off-loaded from the request handling threads.
-POOL_WORKERS = int(os.environ.get('GRAPHITE_POOL_WORKERS', '1'))
-
 # Maximum number of worker threads for concurrent storage operations
 #POOL_MAX_WORKERS = 10
 
@@ -335,13 +324,6 @@ REMOTE_BUFFER_SIZE = int(os.environ.get('GRAPHITE_REMOTE_BUFFER_SIZE', '1048576'
 # Provide a list of HTTP headers that you want forwarded on from this host
 # when making a request to a remote webapp server in CLUSTER_SERVERS
 #REMOTE_STORE_FORWARD_HEADERS = [] # An iterable of HTTP header names
-
-## Prefetch cache
-# set to True to fetch all metrics using a single http request per remote server
-# instead of one http request per target, per remote server.
-# Especially useful when generating graphs with more than 4-5 targets or if
-# there's significant latency between this server and the backends.
-REMOTE_PREFETCH_DATA = os.environ.get("GRAPHITE_REMOTE_PREFETCH_DATA", "false").lower() in ['1', 'true', 'yes']
 
 ## Remote rendering settings
 # Set to True to enable rendering of Graphs on a remote webapp
