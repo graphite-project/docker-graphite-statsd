@@ -70,7 +70,7 @@ RUN true \
  && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
  && pip install \
       cairocffi==1.1.0 \
-      django==2.2.28 \
+      django==3.2.20 \
       django-tagging==0.4.3 \
       django-statsd-mozilla \
       fadvise \
@@ -83,7 +83,7 @@ RUN true \
       python-ldap \
       mysqlclient \
       psycopg2==2.8.6 \
-      django-cockroachdb==2.2.*
+      django-cockroachdb==3.2.*
 
 ARG version=1.1.10
 
@@ -114,7 +114,7 @@ RUN . /opt/graphite/bin/activate \
  && python3 ./setup.py install $python_extra_flags
 
 # install statsd
-ARG statsd_version=0.9.0
+ARG statsd_version=0.10.1
 ARG statsd_repo=https://github.com/statsd/statsd.git
 WORKDIR /opt
 RUN git clone "${statsd_repo}" \
@@ -124,7 +124,7 @@ RUN git clone "${statsd_repo}" \
 
 # build go-carbon (optional)
 # https://github.com/go-graphite/go-carbon/pull/340
-ARG gocarbon_version=0.16.2
+ARG gocarbon_version=0.17.1
 ARG gocarbon_repo=https://github.com/go-graphite/go-carbon.git
 RUN git clone "${gocarbon_repo}" /usr/local/src/go-carbon \
  && cd /usr/local/src/go-carbon \
