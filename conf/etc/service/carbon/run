@@ -10,6 +10,35 @@ if [ -n "${CARBON_DISABLE_TAGS}" ]; then
     sed -i 's/ENABLE_TAGS = True/ENABLE_TAGS = False/g' /opt/graphite/conf/carbon.conf
 fi
 
+# AMQP params
+if [ -n "${CARBON_ENABLE_AMQP}" ]; then
+    sed -i 's/# ENABLE_AMQP = False/ENABLE_AMQP = True/g' /opt/graphite/conf/carbon.conf
+    if [ -n "${CARBON_AMQP_VERBOSE}" ]; then
+      sed -i 's/# AMQP_VERBOSE = False/AMQP_VERBOSE = True/g' /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_HOST}" ]; then
+      sed -i "s/AMQP_HOST = localhost/AMQP_HOST = ${CARBON_AMQP_HOST}/g" /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_PORT}" ]; then
+      sed -i "s/AMQP_PORT = 5672/AMQP_PORT = ${CARBON_AMQP_PORT}/g" /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_VHOST}" ]; then
+      sed -i "s/AMQP_VHOST = \//AMQP_VHOST = ${CARBON_AMQP_VHOST}/g" /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_USER}" ]; then
+      sed -i "s/AMQP_USER = graphite/AMQP_USER = ${CARBON_AMQP_USER}/g" /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_PASSWORD}" ]; then
+      sed -i "s/AMQP_PASSWORD = guest/AMQP_PASSWORD = ${CARBON_AMQP_PASSWORD}/g" /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_EXCHANGE}" ]; then
+      sed -i "s/AMQP_EXCHANGE = graphite/AMQP_EXCHANGE = ${CARBON_AMQP_EXCHANGE}/g" /opt/graphite/conf/carbon.conf
+    fi
+    if [ -n "${CARBON_AMQP_METRIC_NAME_IN_BODY}" ]; then
+      sed -i 's/AMQP_METRIC_NAME_IN_BODY = False/AMQP_AMQP_METRIC_NAME_IN_BODY = True/g' /opt/graphite/conf/carbon.conf
+    fi
+fi
+
 BIN=/opt/graphite/bin/python3
 [[ -f "/opt/graphite/bin/pypy3" ]] && BIN=/opt/graphite/bin/pypy3
 exec ${BIN} /opt/graphite/bin/carbon-cache.py start --debug 2>&1

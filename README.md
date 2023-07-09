@@ -187,6 +187,17 @@ Graphite stores tag information in a separate tag database (TagDB). Please check
 ## Collectd
 Use `COLLECTD=1` environment variable to enable local collectd instance
 
+## AMQP
+* CARBON_ENABLE_AMQP: (false) if set to 1 or true will enable AMQP ingestion in Carbon.
+* CARBON_AMQP_VERBOSE: (false)  if set to 1 or true will enable verbose AMQP output 
+* CARBON_AMQP_HOST: (localhost)
+* CARBON_AMQP_PORT: (5672)
+* CARBON_AMQP_VHOST: (/)
+* CARBON_AMQP_USER: : (guest)
+* CARBON_AMQP_PASSWORD: (guest)
+* CARBON_AMQP_EXCHANGE: (graphite)
+* CARBON_AMQP_METRIC_NAME_IN_BODY: (false)
+
 ## Carbon-cache
 If custom environment `GRAPHITE_CARBONLINK_HOSTS` variable is setup `carbon-cache` instances as daemons/services are [managed](./conf/etc/run_once/carbon-cache) based on the that, otherwise default instance (`127.0.0.1:7002`) is used.
 
