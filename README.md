@@ -296,7 +296,7 @@ docker run -d\
  -p 8125:8125/udp\
  -p 8126:8126\
  -e "MEMCACHE_HOST=127.0.0.1:11211"\  # Memcached host. Separate by comma more than one servers.
- -e "CACHE_DURATION=60"\              # in seconds
+ -e "GRAPHITE_DEFAULT_CACHE_DURATION=60"\              # in seconds
  graphiteapp/graphite-statsd
 ```
 
