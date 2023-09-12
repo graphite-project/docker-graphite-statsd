@@ -66,7 +66,10 @@ DEBUG = os.environ.get("GRAPHITE_DEBUG", "false").lower() in ['1', 'true', 'yes'
 # to the cache duration for the results. This allows for larger queries to be
 # cached for longer periods of times. All times are in seconds. If the policy is
 # empty or undefined, all results will be cached for DEFAULT_CACHE_DURATION.
-DEFAULT_CACHE_DURATION = int(os.environ.get('GRAPHITE_DEFAULT_CACHE_DURATION', '60'))
+if (os.getenv('CACHE_DURATION') is not None):
+    DEFAULT_CACHE_DURATION = int(os.environ.get('CACHE_DURATION', 60))
+else:
+    DEFAULT_CACHE_DURATION = int(os.environ.get('GRAPHITE_DEFAULT_CACHE_DURATION', '60'))
 #DEFAULT_CACHE_POLICY = [(0, 60), # default is 60 seconds
 #                        (7200, 120), # >= 2 hour queries are cached 2 minutes
 #                        (21600, 180)] # >= 6 hour queries are cached 3 minutes
@@ -421,9 +424,6 @@ SECRET_KEY = os.environ.get('GRAPHITE_SECRET_KEY', _SECRET_KEY)
 
 if (os.getenv("MEMCACHE_HOST") is not None):
     MEMCACHE_HOSTS = os.getenv("MEMCACHE_HOST").split(",")
-
-if (os.getenv("DEFAULT_CACHE_DURATION") is not None):
-    DEFAULT_CACHE_DURATION = int(os.getenv("CACHE_DURATION"))
 
 STATSD_HOST = os.environ.get('GRAPHITE_STATSD_HOST', '127.0.0.1')
 if STATSD_HOST != '':
