@@ -35,7 +35,7 @@ if [ -n "${CARBON_ENABLE_AMQP}" ]; then
       sed -i "s/AMQP_EXCHANGE = graphite/AMQP_EXCHANGE = ${CARBON_AMQP_EXCHANGE}/g" /opt/graphite/conf/carbon.conf
     fi
     if [ -n "${CARBON_AMQP_METRIC_NAME_IN_BODY}" ]; then
-      sed -i 's/AMQP_METRIC_NAME_IN_BODY = False/AMQP_AMQP_METRIC_NAME_IN_BODY = True/g' /opt/graphite/conf/carbon.conf
+      sed -i 's/AMQP_METRIC_NAME_IN_BODY = False/AMQP_METRIC_NAME_IN_BODY = True/g' /opt/graphite/conf/carbon.conf
     fi
 fi
 
