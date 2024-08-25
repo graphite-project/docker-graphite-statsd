@@ -14,6 +14,7 @@ RUN true \
       nginx \
       nodejs \
       npm \
+      openldap \
       redis \
       runit \
       sqlite \
