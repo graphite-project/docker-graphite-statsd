@@ -1,4 +1,4 @@
-ARG BASEIMAGE=alpine:3.15
+ARG BASEIMAGE=alpine:3
 FROM $BASEIMAGE as base
 LABEL maintainer="Denys Zhdanov <denis.zhdanov@gmail.com>"
 LABEL org.opencontainers.image.source https://github.com/graphite-project/docker-graphite-statsd
@@ -49,6 +49,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 RUN true \
  && apk add --update \
       alpine-sdk \
+      curl \
       git \
       pkgconfig \
       wget \
@@ -62,16 +63,14 @@ RUN true \
       librdkafka-dev \
       mysql-dev \
       postgresql-dev \
- && curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py \
- && python3 /tmp/get-pip.py pip==20.1.1 setuptools==50.3.2 wheel==0.35.1 && rm /tmp/get-pip.py \
- && pip install virtualenv==16.7.10 \
+      py3-pip py3-setuptools py3-wheel py3-virtualenv \
  && virtualenv -p python3 /opt/graphite \
  && . /opt/graphite/bin/activate \
  && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
  && pip install \
       cairocffi==1.1.0 \
-      django==3.2.20 \
-      django-tagging==0.4.3 \
+      django==4.2.15 \
+      django-tagging==0.5.0 \
       django-statsd-mozilla \
       fadvise \
       gunicorn==20.1.0 \
@@ -83,12 +82,13 @@ RUN true \
       python-ldap \
       mysqlclient \
       psycopg2==2.8.6 \
-      django-cockroachdb==3.2.*
+      django-cockroachdb==4.2.*
 
-ARG version=1.1.10
+ARG version=1.1.11
 
 # install whisper
-ARG whisper_version=${version}
+#ARG whisper_version=${version}
+ARG whisper_version=master
 ARG whisper_repo=https://github.com/graphite-project/whisper.git
 RUN git clone -b ${whisper_version} --depth 1 ${whisper_repo} /usr/local/src/whisper \
  && cd /usr/local/src/whisper \
@@ -96,7 +96,8 @@ RUN git clone -b ${whisper_version} --depth 1 ${whisper_repo} /usr/local/src/whi
  && python3 ./setup.py install $python_extra_flags
 
 # install carbon
-ARG carbon_version=${version}
+#ARG carbon_version=${version}
+ARG carbon_version=master
 ARG carbon_repo=https://github.com/graphite-project/carbon.git
 RUN . /opt/graphite/bin/activate \
  && git clone -b ${carbon_version} --depth 1 ${carbon_repo} /usr/local/src/carbon \
@@ -105,7 +106,8 @@ RUN . /opt/graphite/bin/activate \
  && python3 ./setup.py install $python_extra_flags
 
 # install graphite
-ARG graphite_version=${version}
+#ARG graphite_version=${version}
+ARG graphite_version=master
 ARG graphite_repo=https://github.com/graphite-project/graphite-web.git
 RUN . /opt/graphite/bin/activate \
  && git clone -b ${graphite_version} --depth 1 ${graphite_repo} /usr/local/src/graphite-web \
@@ -114,7 +116,7 @@ RUN . /opt/graphite/bin/activate \
  && python3 ./setup.py install $python_extra_flags
 
 # install statsd
-ARG statsd_version=0.10.1
+ARG statsd_version=0.10.2
 ARG statsd_repo=https://github.com/statsd/statsd.git
 WORKDIR /opt
 RUN git clone "${statsd_repo}" \
@@ -124,7 +126,7 @@ RUN git clone "${statsd_repo}" \
 
 # build go-carbon (optional)
 # https://github.com/go-graphite/go-carbon/pull/340
-ARG gocarbon_version=0.17.1
+ARG gocarbon_version=0.17.3
 ARG gocarbon_repo=https://github.com/go-graphite/go-carbon.git
 RUN git clone "${gocarbon_repo}" /usr/local/src/go-carbon \
  && cd /usr/local/src/go-carbon \
@@ -152,7 +154,7 @@ COPY conf/opt/graphite/conf/* /opt/graphite/conf/
 COPY conf/opt/graphite/webapp/graphite/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
 WORKDIR /opt/graphite/webapp
 RUN mkdir -p /var/log/graphite/ \
-  && PYTHONPATH=/opt/graphite/webapp /opt/graphite/bin/django-admin.py collectstatic --noinput --settings=graphite.settings
+  && PYTHONPATH=/opt/graphite/webapp /opt/graphite/bin/django-admin collectstatic --noinput --settings=graphite.settings
 
 # config statsd
 COPY conf/opt/statsd/config/ /opt/defaultconf/statsd/config/
