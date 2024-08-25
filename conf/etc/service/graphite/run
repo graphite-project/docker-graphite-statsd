@@ -24,9 +24,9 @@ BIN=/opt/graphite/bin/python3
 
 export PYTHONPATH=/opt/graphite/webapp
 export DJANGO_SETTINGS_MODULE=graphite.settings
-${BIN} /opt/graphite/bin/django-admin.py makemigrations
-${BIN} /opt/graphite/bin/django-admin.py migrate auth
-${BIN} /opt/graphite/bin/django-admin.py migrate --run-syncdb
+${BIN} /opt/graphite/bin/django-admin makemigrations
+${BIN} /opt/graphite/bin/django-admin migrate auth
+${BIN} /opt/graphite/bin/django-admin migrate --run-syncdb
 /opt/graphite/bin/django_admin_init.sh || true
 
 if folder_empty /opt/graphite/webapp/graphite/functions/custom; then

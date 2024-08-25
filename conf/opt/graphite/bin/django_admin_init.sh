@@ -3,7 +3,7 @@
 BIN=/opt/graphite/bin/python3
 [[ -f "/opt/graphite/bin/pypy3" ]] && BIN=/opt/graphite/bin/pypy3
 
-cat <<EOF | ${BIN} /opt/graphite/bin/django-admin.py shell
+cat <<EOF | ${BIN} /opt/graphite/bin/django-admin shell
 from django.contrib.auth import get_user_model
 
 User = get_user_model()  # get the currently active user model
