@@ -68,7 +68,7 @@ RUN true \
  && virtualenv -p python3 /opt/graphite \
  && . /opt/graphite/bin/activate \
  && echo 'INPUT ( libldap.so )' > /usr/lib/libldap_r.so \
- && pip install \
+ && pip install --no-cache-dir \
       cairocffi==1.1.0 \
       django==4.2.15 \
       django-tagging==0.5.0 \
@@ -94,6 +94,7 @@ ARG whisper_repo=https://github.com/graphite-project/whisper.git
 RUN git clone -b ${whisper_version} --depth 1 ${whisper_repo} /usr/local/src/whisper \
  && cd /usr/local/src/whisper \
  && . /opt/graphite/bin/activate \
+ && pip3 install --no-cache-dir -r requirements.txt \
  && python3 ./setup.py install $python_extra_flags
 
 # install carbon
@@ -103,7 +104,7 @@ ARG carbon_repo=https://github.com/graphite-project/carbon.git
 RUN . /opt/graphite/bin/activate \
  && git clone -b ${carbon_version} --depth 1 ${carbon_repo} /usr/local/src/carbon \
  && cd /usr/local/src/carbon \
- && pip3 install -r requirements.txt \
+ && pip3 install --no-cache-dir -r requirements.txt \
  && python3 ./setup.py install $python_extra_flags
 
 # install graphite
@@ -113,7 +114,7 @@ ARG graphite_repo=https://github.com/graphite-project/graphite-web.git
 RUN . /opt/graphite/bin/activate \
  && git clone -b ${graphite_version} --depth 1 ${graphite_repo} /usr/local/src/graphite-web \
  && cd /usr/local/src/graphite-web \
- && pip3 install -r requirements.txt \
+ && pip3 install --no-cache-dir -r requirements.txt \
  && python3 ./setup.py install $python_extra_flags
 
 # install statsd
