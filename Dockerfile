@@ -178,3 +178,6 @@ VOLUME ["/opt/graphite/conf", "/opt/graphite/storage", "/opt/graphite/webapp/gra
 STOPSIGNAL SIGHUP
 
 ENTRYPOINT ["/entrypoint"]
+
+HEALTHCHECK --interval=60s --start-interval=20s --timeout=3s \
+  CMD curl -f http://localhost/ || exit 1
