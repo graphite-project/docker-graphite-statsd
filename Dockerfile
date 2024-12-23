@@ -73,13 +73,12 @@ RUN true \
       django==4.2.15 \
       django-tagging==0.5.0 \
       django-statsd-mozilla \
-      fadvise \
       gunicorn==20.1.0 \
       eventlet>=0.24.1 \
       gevent>=1.4 \
       msgpack==0.6.2 \
       redis \
-      rrdtool \
+      rrdtool-bindings \
       python-ldap \
       mysqlclient \
       psycopg2==2.8.6 \
