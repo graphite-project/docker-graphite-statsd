@@ -84,11 +84,10 @@ RUN true \
       psycopg2==2.8.6 \
       django-cockroachdb==4.2.*
 
-ARG version=1.1.11
+ARG version=master
 
 # install whisper
-#ARG whisper_version=${version}
-ARG whisper_version=master
+ARG whisper_version=${version}
 ARG whisper_repo=https://github.com/graphite-project/whisper.git
 RUN git clone -b ${whisper_version} --depth 1 ${whisper_repo} /usr/local/src/whisper \
  && cd /usr/local/src/whisper \
@@ -97,8 +96,7 @@ RUN git clone -b ${whisper_version} --depth 1 ${whisper_repo} /usr/local/src/whi
  && python3 ./setup.py install $python_extra_flags
 
 # install carbon
-#ARG carbon_version=${version}
-ARG carbon_version=master
+ARG carbon_version=${version}
 ARG carbon_repo=https://github.com/graphite-project/carbon.git
 RUN . /opt/graphite/bin/activate \
  && git clone -b ${carbon_version} --depth 1 ${carbon_repo} /usr/local/src/carbon \
@@ -107,8 +105,7 @@ RUN . /opt/graphite/bin/activate \
  && python3 ./setup.py install $python_extra_flags
 
 # install graphite
-#ARG graphite_version=${version}
-ARG graphite_version=master
+ARG graphite_version=${version}
 ARG graphite_repo=https://github.com/graphite-project/graphite-web.git
 RUN . /opt/graphite/bin/activate \
  && git clone -b ${graphite_version} --depth 1 ${graphite_repo} /usr/local/src/graphite-web \
