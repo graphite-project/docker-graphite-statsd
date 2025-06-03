@@ -1,0 +1,64 @@
+version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@4.2.3
+  aws-ecr: circleci/aws-ecr@9.4.0
+  docker: circleci/docker@2.8.2
+
+workflows:
+  main:
+    jobs:
+      - docker/hadolint:
+          dockerfiles: images/nginx/Dockerfile
+          executor-class: medium
+          ignore-rules: DL3018,DL3003,DL4006,SC2086
+
+      - build:
+          context:
+            - build
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-2204:2024.11.1
+    resource_class: arm.large
+    steps:
+      - checkout
+
+      - aws-cli/setup:
+          role_arn: arn:aws:iam::651244981378:role/graphite-statsd-deploy
+          role_session_name: graphite-statsd-deploy
+
+      - aws-ecr/ecr_login
+
+
+      # - run:
+      #     name: Build Graphite Image
+      #     command: docker-compose build --progress plain
+      #     environment:
+      #       COMPOSE_PROFILES: nostart
+
+      # - run:
+      #     name: Check Nginx Config
+      #     command: docker-compose run nginx nginx -t
+      #     environment:
+      #       COMPOSE_PROFILES: nostart
+
+      # - when:
+      #     condition:
+      #       equal: [ main, << pipeline.git.branch >> ]
+      #     steps:
+      #       - docker/push:
+      #           registry: 651244981378.dkr.ecr.eu-west-1.amazonaws.com
+      #           image: public-ingress/nginx
+      #           tag: latest-base
+
+      #       - docker/push:
+      #           registry: 651244981378.dkr.ecr.eu-west-1.amazonaws.com
+      #           image: public-ingress/nginx
+      #           tag: $CIRCLE_SHA1
+
+      #       - docker/push:
+      #           registry: 651244981378.dkr.ecr.eu-west-1.amazonaws.com
+      #           image: public-ingress/sigsci-agent
+      #           tag: $CIRCLE_SHA1
